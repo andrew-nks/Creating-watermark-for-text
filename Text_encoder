@@ -1,0 +1,27 @@
+# function to encode text
+def text_encoder():
+    original_text_input = input("Please enter text: " )
+    encoded_text = []
+    for char in original_text_input:
+        if char == ",":
+            encoded_text.append("‚")   # this is unrecognizable
+        elif char == ";":
+            encoded_text.append(";")   # this is unrecognizable
+        elif char == ":":
+            encoded_text.append("꞉")   # this is unrecognizable
+        elif char == "*":
+            encoded_text.append("⃰")   # this appears different
+        elif char == "'":
+            encoded_text.append("῾")   # this appears different
+        elif char == "“":
+            encoded_text.append("‟")   # this appears different
+        else:
+            encoded_text.append(char)
+
+    final_text = ''.join(encoded_text)
+
+    print("This is encoded text: "+ final_text)
+    print("This is original text: " + original_text_input)
+    print(final_text == original_text_input)               # prints False once punctuation is altered
+
+text_encoder()
