@@ -1,5 +1,5 @@
-# Encoding-function
-For effective watermarks within generative AI text, several key features are essential: they should be hard to remove, easily detectable and non-disruptive to the content's readability.
+# Creating watermark for AI-generated text
+For effective watermarks within AI-generated text, several key features are essential: they should be hard to remove, easily detectable and non-disruptive to the content's readability.
 
 This Python function takes in a text string and encodes the string via changing punctuation marks. This is designed as part of a Python library for Generative AI platforms such as Chat GPT, Copilot, etc., which rely on Large Language Models, can watermark their generated text. When generated texted is copied wholesale from these platforms, a detector can detect the unusual punctuation used in the text and thus determine how much of a written piece is AI-generated.
 
