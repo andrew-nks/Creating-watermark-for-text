@@ -21,7 +21,7 @@ if is_encoding_or_detection == "A":
     
 
     elif encode_method == "B":
-        input_file_path = "Original text.docx" # Replace with the path to your input Word file
+        input_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/Exchange/Social Innovation/Creating-watermark-for-text/Functions/Original text.docx" # Replace with the path to your input Word file
         output_file_path = "Encoded text.docx"   # Replace with the path to the output Word file
     
         paragraph_list = read_words_from_word_file_with_paragraphs(input_file_path)
