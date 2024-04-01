@@ -1,6 +1,6 @@
-from encoding_function import text_encoder
-from encoding_file import *
-from detection_function import *
+from Encoding.encoding_text import text_encoder
+from Encoding.encoding_text_file import *
+from Detection.detection_text_file import *
 
 is_encoding_or_detection = input("Do you wish to encode or detect AI-generated text?: A. Encode B. Detect  Ans: ")
 
@@ -21,8 +21,8 @@ if is_encoding_or_detection == "A":
     
 
     elif encode_method == "B":
-        input_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/Exchange/Social Innovation/Creating-watermark-for-text/Functions/Original text.docx" # Replace with the path to your input Word file
-        output_file_path = "Encoded text.docx"   # Replace with the path to the output Word file
+        input_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/Exchange/Social Innovation/Creating-watermark-for-text/Functions/Input/Original text.docx" # Replace with the path to your input Word file
+        output_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/Exchange/Social Innovation/Creating-watermark-for-text/Functions/Output/Encoded text.docx"   # Replace with the path to the output Word file
     
         paragraph_list = read_words_from_word_file_with_paragraphs(input_file_path)
 
@@ -30,7 +30,7 @@ if is_encoding_or_detection == "A":
         write_words_to_word_file_with_paragraphs(paragraph_list, output_file_path)
 
 if is_encoding_or_detection == "B":
-    file_path = "Encoded text.docx"  # Replace with the path to input file for AI detection
+    file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/Exchange/Social Innovation/Creating-watermark-for-text/Functions/Output/Encoded text.docx"  # Replace with the path to input file for AI detection
     result = read_encoded_punctuation_from_word_file_with_paragraphs(file_path)
 
-    print("Proportion of characters generated from AI: " + str(round(result[1]/(result[0] + result[1]),2)))
+    print("Proportion of characters generated from AI: " + result)
