@@ -1,7 +1,7 @@
 # detect encoded punctuation
 from docx import Document
 
-def read_encoded_punctuation_from_word_file_with_paragraphs(file_path):
+def read_encoded_characters_from_word_file_with_paragraphs(file_path):
     
     # Initialize an empty list to store the words
     words = []

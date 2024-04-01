@@ -2,6 +2,7 @@ from Encoding.encoding_text import text_encoder
 from Encoding.encoding_text_file import *
 from Detection.detection_text_file import *
 from Encoding.encoding_code_file import encode_code_file
+from Detection.detection_code_file import *
 
 is_encoding_or_detection = input("Do you wish to encode or detect AI-generated text?: A. Encode B. Detect  Ans: ")
 
@@ -22,8 +23,8 @@ if is_encoding_or_detection == "A":
     
 
     elif encode_method == "B":
-        input_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/Exchange/Social Innovation/Creating-watermark-for-text/Functions/Input/Original text.docx" # Replace with the path to your input Word file
-        output_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/Exchange/Social Innovation/Creating-watermark-for-text/Functions/Output/Encoded text.docx"   # Replace with the path to the output Word file
+        input_file_path = "/Creating-watermark-for-text/Functions/Input/Original text.docx" # Replace with the path to your input Word file
+        output_file_path = "/Creating-watermark-for-text/Functions/Output/Encoded text.docx"   # Replace with the path to the output Word file
     
         paragraph_list = read_words_from_word_file_with_paragraphs(input_file_path)
 
@@ -31,13 +32,18 @@ if is_encoding_or_detection == "A":
         write_words_to_word_file_with_paragraphs(paragraph_list, output_file_path)
 
     elif encode_method == "C":
-        source_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/Exchange/Social Innovation/Creating-watermark-for-text/Functions/Input/Original code.py" # Replace with the path to your input code file
-        dest_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/Exchange/Social Innovation/Creating-watermark-for-text/Functions/Output/Encoded code.py" # Replace with the path to your output code file
+        source_path = "/Creating-watermark-for-text/Functions/Input/Original code.html" # Replace with the path to your input code file
+        dest_path = "/Creating-watermark-for-text/Functions/Output/Encoded code.html" # Replace with the path to your output code file
 
         encode_code_file(source_path, dest_path)
 
 if is_encoding_or_detection == "B":
-    file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/Exchange/Social Innovation/Creating-watermark-for-text/Functions/Output/Encoded text.docx"  # Replace with the path to input file for AI detection
-    result = read_encoded_punctuation_from_word_file_with_paragraphs(file_path)
+    detection_medium = input("Choose A. Detection for Text file. Ans: ")
 
-    print("Proportion of characters generated from AI: " + result)
+    if detection_medium == "A":
+        file_path = "/Creating-watermark-for-text/Functions/Output/Encoded text.docx"  # Replace with the path to input file for AI detection
+        result = read_encoded_characters_from_word_file_with_paragraphs(file_path)
+
+        print("Proportion of text characters generated from AI: " + result)
+
+    
