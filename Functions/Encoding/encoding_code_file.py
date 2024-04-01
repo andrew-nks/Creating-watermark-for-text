@@ -1,5 +1,5 @@
 # Function to encode .py files 
-def copy_py_file(source_path, dest_path):
+def encode_code_file(source_path, dest_path):
     
     try:
         # Open the Python file in read mode
@@ -84,9 +84,4 @@ def copy_py_file(source_path, dest_path):
         return False
 
 
-# Path to the source Python file
-source_py_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/Exchange/Social Innovation/Creating-watermark-for-text/Functions/original code.html"
-# Path to the destination Python file
-dest_py_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/Exchange/Social Innovation/Creating-watermark-for-text/Functions/modified_code.html"
 
-copy_py_file(source_py_file_path, dest_py_file_path)
