@@ -1,10 +1,11 @@
 # Creating watermark for AI-generated text
-For effective watermarks within AI-generated text, several key features are essential: they should be hard to remove, easily detectable and non-disruptive to the content's readability.
+For effective watermarks within AI-generated text, several key features are essential: they should be hard to remove, easily detectable and non-disruptive to the content's readability and usability (i.e code snippets).
 
-This Python function takes in a text string and encodes the string via changing punctuation marks. This is designed as part of a Python library for Generative AI platforms such as Chat GPT, Copilot, etc., which rely on Large Language Models, can watermark their generated text. When generated texted is copied wholesale from these platforms, a detector can detect the unusual punctuation used in the text and thus determine how much of a written piece is AI-generated.
+This Python function takes in a text string and encodes the string via changing letters and punctuation marks. This is designed as part of a Python library for Generative AI platforms such as Chat GPT, Copilot, Bard etc., which rely on Large Language Models, can watermark their generated text. When generated texted is copied wholesale from these platforms, a detector can detect the unusual letters and punctuation used in the text and thus determine how much of a written piece is AI-generated.
 
 A total of 28 characters will be substituted with new alternatives (Refer to Encoding Matrix to see the full list). These substitutes are letters and punctuation marks from other languages (e.g Cyrillic, Armenian, Greek, etc.) and appear virtually identical to their English counterparts. All substitute characters use different ASCII keys, which will be flagged up instantly by a detector. Each substitute character can only be written using Unicode, ALT keystroke or a non-English keyboard, thus authors of written work in English cannot justify their use in articles as "accidental" typing.
 
+In the case of AI-generated code snippets, only code comments can be encoded as substituting characters in code itself would render the code unusable.
 
 
 Example 1:
