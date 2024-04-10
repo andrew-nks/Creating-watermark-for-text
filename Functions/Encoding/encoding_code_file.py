@@ -14,7 +14,10 @@ def encode_code_file(source_path, dest_path):
                 # encoding alphabet & punctuation
                 invert_ref_dict = {value: key for key, value in ref_dict.items()}
                 invert_encoding_dict = {value: key for key, value in encoding_dict.items()}
-                            
+
+                # Use a unicode whitespace character to separate each letter
+                whitespace_character = "\u200B"  # Four-Per-Em Space character
+
                 '''
                 These characters denote comments in most  languages:
                 #, //, /*, --
@@ -61,8 +64,15 @@ def encode_code_file(source_path, dest_path):
                         if char in ref_dict:    # If char can be encoded, add the encoded character to current line
                             index = ref_dict[char]
                             current_line += invert_encoding_dict[index] 
+                            
+                        elif char == " ":
+                            current_line += char
+                            current_line += whitespace_character    # add whitespace only at the start of words within comments
+                            
+
                         else:
                             current_line += char # If not, add the current character to the current line
+                            
 
                     # For all characters that are outside comment blocks entirely
                     elif not inside_comment:

@@ -16,7 +16,12 @@ def text_encoder(original_text_input):
         else:
             encoded_text.append(char)
 
-    final_text = ''.join(encoded_text)
+    encoded_string = ''.join(encoded_text)
+
+    # Use a unicode whitespace character to separate each letter
+    whitespace_character = "\u200B"  # Four-Per-Em Space character
+
+    final_text = whitespace_character.join(encoded_string)
 
     encoding_score = 0
     encoded_ch = ""
@@ -25,9 +30,18 @@ def text_encoder(original_text_input):
             encoding_score += 1
             if ch not in encoded_ch:
                 encoded_ch += ch
+    
+    whitespace_count = 0
+    letter_count = 0
+    for char in final_text:
+        if char == "\u200B":
+            whitespace_count += 1
+        else:
+            letter_count += 1
             
     
     proportion_of_encoding = str(round(encoding_score / len(encoded_text),2))
+    proportion_of_whitespace = str(round(whitespace_count/(letter_count-1),2))
 
-    return [final_text, original_text_input, proportion_of_encoding, encoded_ch]
+    return [final_text, proportion_of_encoding, encoded_ch, proportion_of_whitespace]
 
