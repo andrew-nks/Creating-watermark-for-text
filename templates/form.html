@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homoglyph watermarking and detection</title>
+</head>
+<body>
+    <h1>Homoglyph watermarking and detection</h1>
+    <h2 style="color:red">Watermarking</h2>
+    <h3 style="color: rgb(187, 47, 47)">Encode text manually:</h3>
+    
+    <div id="div3">
+        <form id="textForm" action="/process_form" method="POST" enctype="multipart/form-data">
+            <textarea id="encode" name="encode" rows="7" cols="60">Enter your text here</textarea>
+            <br>
+            <input type="submit" value="Submit">
+            <input type="button" value="Reset" onclick="resetForm()">
+            <br>
+            
+            {% if encoded_output %}
+            <textarea id="result" name="result" rows="7" cols="60">{{encoded_output}}</textarea>
+            <p name = "proportion">This is the proportion of encoding: {{proportion_of_encoding}}</p>
+            <p name = "characters">This is the characters encoded: {{encoded_characters}}</p>
+            <p name= "whitespaces">This is the proportion of whitespaces: {{whitespace_characters}}</p>
+            
+            {%  endif %}
+        </form>
+        
+        <form id="textUploadForm" action="/upload_text" method="POST" enctype="multipart/form-data">    
+            <h3 style="color: rgb(187, 47, 47)">Encode text file:</h3>               
+            File input: <input type="file" name="file" accept=".docx"><br>
+            <input type="submit" value="Download encoded text file">
+            <br>
+            <br>
+
+        </form>
+
+        <form id="codeUploadForm" action="/upload_code" method="POST" enctype="multipart/form-data">
+            <h3 style="color: rgb(187, 47, 47)">Encode code file:</h3>               
+            File input: <input type="file" name="code_file"><br>
+            <input type="submit" value="Download encoded code file">
+            <br>
+            <br>
+            <br>
+        </form>
+
+            <h2 style="color: blue">Detection</h2>
+            
+            <h3 style="color: navy">Paste text to be evaluated for homoglyph watermarks</h3>
+            <textarea name="detect" rows="7" cols="60">Enter your text here</textarea>
+            <br>
+            <input type="submit" value="Submit">
+            <input type="button" value="Reset" onclick="resetForm()">
+            <br>
+
+            <h3 style="color: navy">Input text file for homoglyph watermarks:</h3>               
+            File input: <input type="file"><br>
+            <input type="submit">
+            <br>
+            <br>
+            <h3 style="color: navy">Input code file for homoglyph watermarks:</h3>               
+            File input: <input type="file"><br>
+            <input type="submit">
+            <br>
+            <br>
+        
+    </div>
+    
+    <script>
+    function resetForm() {
+        var resultTextArea = document.getElementById("result");
+        var resultProportion = document.getElementById("proportion");
+        var resultCharacters = document.getElementById("characters");
+        var resultWhitespaces = document.getElementById("whitespaces");
+        if (resultTextArea) {
+            resultTextArea.parentNode.removeChild(resultTextArea);
+        }
+        if (resultProportion) {
+            resultProportion.parentNode.removeChild(resultTextArea);
+        }
+        if (resultCharacters) {
+            resultCharacters.parentNode.removeChild(resultTextArea);
+        }
+        if (resultWhitespaces) {
+            resultWhitespaces.parentNode.removeChild(resultTextArea);
+        }
+        document.getElementById("myForm").reset();
+    }
+    </script>
+</body>
+</html>

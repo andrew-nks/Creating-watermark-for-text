@@ -34,8 +34,8 @@ if is_encoding_or_detection == "A":
         write_words_to_word_file_with_paragraphs(paragraph_list, output_file_path)
 
     elif encode_method == "C":
-        source_path = "/Creating-watermark-for-text/Functions/Input/Original code.py" # Replace with the path to your input code file
-        dest_path = "/Creating-watermark-for-text/Functions/Output/Encoded code.py" # Replace with the path to your output code file
+        source_path = " /Creating-watermark-for-text/Functions/Input/Original code.py"   # Replace with the path to the output Word file
+        dest_path = "/Creating-watermark-for-text/Functions/Output/Encoded code.py"   # Replace with the path to the output Word file
 
         encode_code_file(source_path, dest_path)
 
