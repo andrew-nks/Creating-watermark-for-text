@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homoglyph watermarking and detection</title>
+
+    <style>
+        body {
+            text-align: center; /* Center align all text content */
+        }
+        #div3 {
+            display: inline-block; /* Center the div */
+            text-align: left; /* Reset text alignment for contents within the div */
+        }
+    </style>
+    
 </head>
 <body>
     <h1>Homoglyph watermarking and detection</h1>
@@ -11,31 +22,34 @@
     <h3 style="color: rgb(187, 47, 47)">Encode text manually:</h3>
     
     <div id="div3">
+        <!--Encoding manual text input-->
         <form id="textForm" action="/process_form" method="POST" enctype="multipart/form-data">
             <textarea id="encode" name="encode" rows="7" cols="60">Enter your text here</textarea>
             <br>
             <input type="submit" value="Submit">
-            <input type="button" value="Reset" onclick="resetForm()">
+            <input type="button" name= "reset1" value="Reset" onclick="resetForm()">
             <br>
             
             {% if encoded_output %}
             <textarea id="result" name="result" rows="7" cols="60">{{encoded_output}}</textarea>
             <p name = "proportion">This is the proportion of encoding: {{proportion_of_encoding}}</p>
-            <p name = "characters">This is the characters encoded: {{encoded_characters}}</p>
+            <p name = "characters">This are the characters encoded: {{encoded_characters}}</p>
             <p name= "whitespaces">This is the proportion of whitespaces: {{whitespace_characters}}</p>
             
             {%  endif %}
         </form>
         
+        <!--Encoding text file-->
         <form id="textUploadForm" action="/upload_text" method="POST" enctype="multipart/form-data">    
             <h3 style="color: rgb(187, 47, 47)">Encode text file:</h3>               
-            File input: <input type="file" name="file" accept=".docx"><br>
+            File input: <input type="file" name="file"><br>
             <input type="submit" value="Download encoded text file">
             <br>
             <br>
 
         </form>
 
+        <!--Encoding code file-->
         <form id="codeUploadForm" action="/upload_code" method="POST" enctype="multipart/form-data">
             <h3 style="color: rgb(187, 47, 47)">Encode code file:</h3>               
             File input: <input type="file" name="code_file"><br>
@@ -45,25 +59,57 @@
             <br>
         </form>
 
+
             <h2 style="color: blue">Detection</h2>
-            
+        <!--Detecting watermarks in manual text-->
+        <form id="detectText" action="/detect_text" method="POST" enctype="multipart/form-data">   
             <h3 style="color: navy">Paste text to be evaluated for homoglyph watermarks</h3>
-            <textarea name="detect" rows="7" cols="60">Enter your text here</textarea>
+            <textarea id="detect" name="detect" rows="7" cols="60">Enter your text here</textarea>
             <br>
-            <input type="submit" value="Submit">
-            <input type="button" value="Reset" onclick="resetForm()">
+            <input type="submit" value="Detect Homoglyphs">
+            <input type="button" name="reset2" value="Reset" onclick="resetForm()">
             <br>
 
-            <h3 style="color: navy">Input text file for homoglyph watermarks:</h3>               
-            File input: <input type="file"><br>
-            <input type="submit">
+            {% if homoglyph_proportion %}
+            <textarea id="result" name="result" rows="7" cols="60">{{homoglyph_list}}</textarea>
+            <p name = "proportion1">This is the proportion of encoding: {{homoglyph_proportion}}</p>
+            <p name= "whitespaces1">This is the proportion of whitespaces: {{whitespace_proportion}}</p>
+            
+            {%  endif %}
+
+
+        </form>
+
+        <!--Detecting watermarks in text file-->
+        <form id="detectTextFile" action="/detect_textfile" method="POST" enctype="multipart/form-data">
+            <h3 style="color: navy">Input text file to detect watermarks:</h3>               
+            File input: <input type="file" name="text_file_detect"><br>
+            <input type="submit" value="Evaluate text file">
             <br>
             <br>
-            <h3 style="color: navy">Input code file for homoglyph watermarks:</h3>               
-            File input: <input type="file"><br>
-            <input type="submit">
+        
+            {% if proportion_of_homoglyphs %}
+            <p name = "proportion_homoglyphs">This is the proportion of encoding: {{proportion_of_homoglyphs}}</p>
+            <p name= "whitespaces">This is the proportion of whitespaces: {{proportion_of_whitespaces}}</p>
+            
+            {%  endif %}
+        </form>
+
+
+        <!--Detecting watermarks in code file-->
+        <form id="detectCodeFile" action="/detect_codefile" method="POST" enctype="multipart/form-data">
+            <h3 style="color: navy">Input code file to detect watermarks:</h3>               
+            File input: <input type="file" name="code_file_detect"><br>
+            <input type="submit" value="Evaluate code file">
             <br>
             <br>
+
+            {% if proportion_of_homoglyphs_code %}
+            <p name = "proportion_homoglyphs_code">This is the proportion of encoding: {{proportion_of_homoglyphs_code}}</p>
+            <p name= "whitespaces_code">This is the proportion of whitespaces: {{proportion_of_whitespaces_code}}</p>
+            
+            {%  endif %}
+        </form>
         
     </div>
     

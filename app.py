@@ -1,4 +1,5 @@
 import os
+import logging
 from flask import Flask, render_template, request, send_file
 from werkzeug.utils import secure_filename
 from Functions.Encoding.encoding_text import text_encoder
@@ -6,8 +7,13 @@ from Functions.Encoding.encoding_text_file import *
 from Functions.Encoding.encoding_code_file import encode_code_file
 from Functions.Detection.detection_text_file import *
 from Functions.Detection.detection_code_file import *
+from Functions.Detection.detection_text import homoglyph_detection
 
+# Create flask app
 app = Flask(__name__)
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
 
 @app.route('/')
 def index():
@@ -64,12 +70,11 @@ def upload_code_file():
         return "No file part"
     
     file = request.files['code_file']
-    print(file)
+    
 
     if file.filename == '':
         return "No selected file"
     
-
     if file:
         # Save the uploaded file to a temporary location
         input_file_path = secure_filename(file.filename)
@@ -80,14 +85,80 @@ def upload_code_file():
 
         # Define the output file path
         output_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/3.2 Exchange/Social Innovation/Creating-watermark-for-text/Functions/Output/Encoded code"+file_extension   # Replace with the path to the output Word file
-        
-        
+             
         # Write code to the output file 
         encode_code_file(input_file_path, output_file_path)
         print(output_file_path)
 
         # Send the modified document as a file download
         return send_file(output_file_path, as_attachment=True)
+
+# Detecting text manually typed in the box
+@app.route('/detect_text', methods=['POST'])
+def detect_text():
+    encoded_text_input = request.form['detect']
+    
+    homoglyph_proportion = homoglyph_detection(encoded_text_input)[0]
+    whitespace_proportion = homoglyph_detection(encoded_text_input)[1]
+    homoglyph_list = homoglyph_detection(encoded_text_input)[2]
+    
+    
+    # Detecting and returning the details of homoglyphs
+    return render_template('form.html', homoglyph_proportion = homoglyph_proportion, 
+                           whitespace_proportion = whitespace_proportion,
+                           homoglyph_list = homoglyph_list
+                           )
+
+# Detecting watermarks in text file uploaded
+@app.route('/detect_textfile', methods=['POST'])
+def detect_text_file():
+    
+    if 'text_file_detect' not in request.files:
+        return "No file part"
+    
+    file = request.files['text_file_detect']
+    
+
+    if file.filename == '':
+        return "No selected file"
+    
+    if file:
+        # Save the uploaded file to a temporary location
+        input_file_path = secure_filename(file.filename)
+        file.save(input_file_path)
+
+        proportion_of_homoglyphs = read_encoded_characters_from_word_file_with_paragraphs(input_file_path)[0]
+        proportion_of_whitespaces = read_encoded_characters_from_word_file_with_paragraphs(input_file_path)[1]
+    
+    # Encoding and returning the details of homoglyphs
+    return render_template('form.html', proportion_of_homoglyphs = proportion_of_homoglyphs,
+                           proportion_of_whitespaces = proportion_of_whitespaces)
+
+# Detecting watermarks in code file uploaded
+@app.route('/detect_codefile', methods=['POST'])
+def detect_code_file():
+    
+    if 'code_file_detect' not in request.files:
+        return "No file part"
+    
+    file = request.files['code_file_detect']
+    
+
+    if file.filename == '':
+        return "No selected file"
+    
+    if file:
+        # Save the uploaded file to a temporary location
+        input_file_path = secure_filename(file.filename)
+        file.save(input_file_path)
+
+        proportion_of_homoglyphs_code = read_encoded_characters_from_code_file(input_file_path)[0]
+        proportion_of_whitespaces_code = read_encoded_characters_from_code_file(input_file_path)[1]
+    
+    # Encoding and returning the details of homoglyphs
+    return render_template('form.html', proportion_of_homoglyphs_code = proportion_of_homoglyphs_code,
+                           proportion_of_whitespaces_code = proportion_of_whitespaces_code)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
