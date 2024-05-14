@@ -12,10 +12,10 @@ In the case of AI-generated code snippets, only code comments can be encoded as 
 
 The Python functions are as follows:
 - Encoding text directly: For Generative AI platforms which generate text word by word from their LLMs (e.g ChatGPT, Copilot, etc), this function is intended to encode each character as it is being generated
-- Encoding text files: For platforms which generate full word documents (e.g PDF, .docx, .ppt), this function is intended to read documents in full, encode accordingly, then write to a new file with the encoded text
-- Encoding code files: For platforms which generate code files (e.g .py, .html, .sql, .js, etc), this function encodes all code comments before writing to a new file of usable code
-- Detection for text files: Uploading a text file, it will detect the proportion of homoglyphs and zero-width whitespaces encoded with the text
-- **Detection for code files: Uploading a code file, it will detect the proportion of homoglyphs and zero-width whitespaces encoded with the code comments
+- Encoding text files: For platforms which generate full word documents (e.g PDF, .docx, .ppt), this function is intended to read documents in full, encode accordingly, then write to a new file with the encoded text. The function takes in .doc and .txt files only
+- **Encoding code files: For platforms which generate code files (e.g .py, .html, .sql, .js, etc), this function encodes all code comments before writing to a new file of usable code. Function is successful for code files excluding .css files and .html containing CSS comments
+- Detection for text files: Uploading a text file, it will detect the proportion of homoglyphs and zero-width whitespaces encoded with the text. Function takes in .doc and .txt files only
+- Detection for code files: Uploading a code file, it will detect the proportion of homoglyphs and zero-width whitespaces encoded with the code comments.
 
 **Work in Progress
 
