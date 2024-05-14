@@ -1,7 +1,10 @@
 from docx import Document
+import os
 
 def read_words_from_word_file_with_paragraphs(file_path):
-    
+    # Extract file extension
+    _, file_extension = os.path.splitext(file_path)
+
     # Initialize an empty list to store the paragraphs
     paragraphs = []
  

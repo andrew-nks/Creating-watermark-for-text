@@ -21,7 +21,8 @@ def homoglyph_detection(encoded_text_input):
     for ch in encoded_text_input:
         if ch in homoglyph_list:
             encoded += 1
-            homoglyphs.append(ch)
+            if ch not in homoglyphs:
+                homoglyphs.append(ch)
         elif ch == whitespace_character:
             whitespace += 1
         else:
@@ -35,4 +36,16 @@ def homoglyph_detection(encoded_text_input):
     homoglyphs = ''.join(homoglyphs)
 
     return [homoglyph_proportion, whitespace_proportion,homoglyphs]
+
+# Flagging homoglyphs in printed output 
+def flagged_string_with_html(input):
+    flagged_characters = "АаВеցіΚӏΜΝոΟΡрԛЅѕΤՍԜԝΥу‚;꞉ǃʾ"  # Add or remove flagged characters here as needed
+    original_string = input
+    flagged_string = original_string
+
+    # Wrap flagged characters with HTML span tags
+    for char in flagged_characters:
+        flagged_string = flagged_string.replace(char, f'<span class="flagged">{char}</span>')
+
+    return flagged_string
        

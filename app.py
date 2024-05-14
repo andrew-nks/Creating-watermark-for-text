@@ -7,7 +7,7 @@ from Functions.Encoding.encoding_text_file import *
 from Functions.Encoding.encoding_code_file import encode_code_file
 from Functions.Detection.detection_text_file import *
 from Functions.Detection.detection_code_file import *
-from Functions.Detection.detection_text import homoglyph_detection
+from Functions.Detection.detection_text import *
 
 # Create flask app
 app = Flask(__name__)
@@ -51,8 +51,11 @@ def upload_text_file():
         input_file_path = secure_filename(file.filename)
         file.save(input_file_path)
 
+        # Get the suffix of the code file
+        file_extension = os.path.splitext(input_file_path)[1]
+
         # Define the output file path
-        output_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/3.2 Exchange/Social Innovation/Creating-watermark-for-text/Functions/Output/Encoded text.docx"   # Replace with the path to the output Word file
+        output_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/3.2 Exchange/Social Innovation/Creating-watermark-for-text/Functions/Output/Encoded text"+file_extension   # Replace with the path to the output Word file
         
         # Modify the Word document
         paragraph_list = read_words_from_word_file_with_paragraphs(input_file_path)
@@ -97,6 +100,8 @@ def upload_code_file():
 @app.route('/detect_text', methods=['POST'])
 def detect_text():
     encoded_text_input = request.form['detect']
+
+    text_input_with_flags = flagged_string_with_html(encoded_text_input)
     
     homoglyph_proportion = homoglyph_detection(encoded_text_input)[0]
     whitespace_proportion = homoglyph_detection(encoded_text_input)[1]
@@ -104,7 +109,8 @@ def detect_text():
     
     
     # Detecting and returning the details of homoglyphs
-    return render_template('form.html', homoglyph_proportion = homoglyph_proportion, 
+    return render_template('form.html', text_input_with_flags = text_input_with_flags,
+                           homoglyph_proportion = homoglyph_proportion, 
                            whitespace_proportion = whitespace_proportion,
                            homoglyph_list = homoglyph_list
                            )
@@ -127,8 +133,14 @@ def detect_text_file():
         input_file_path = secure_filename(file.filename)
         file.save(input_file_path)
 
-        proportion_of_homoglyphs = read_encoded_characters_from_word_file_with_paragraphs(input_file_path)[0]
-        proportion_of_whitespaces = read_encoded_characters_from_word_file_with_paragraphs(input_file_path)[1]
+        # Get the suffix of the code file
+        file_extension = os.path.splitext(input_file_path)[1]
+
+        # Define the output file path
+        output_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/3.2 Exchange/Social Innovation/Creating-watermark-for-text/Functions/Output/Evaluated text"+file_extension   # Replace with the path to the output Word file
+
+        proportion_of_homoglyphs = read_encoded_characters_from_word_file_with_paragraphs(input_file_path,output_file_path)[0]
+        proportion_of_whitespaces = read_encoded_characters_from_word_file_with_paragraphs(input_file_path,output_file_path)[1]
     
     # Encoding and returning the details of homoglyphs
     return render_template('form.html', proportion_of_homoglyphs = proportion_of_homoglyphs,
@@ -152,12 +164,17 @@ def detect_code_file():
         input_file_path = secure_filename(file.filename)
         file.save(input_file_path)
 
-        proportion_of_homoglyphs_code = read_encoded_characters_from_code_file(input_file_path)[0]
-        proportion_of_whitespaces_code = read_encoded_characters_from_code_file(input_file_path)[1]
+       
+
+        # Define the output file path
+        output_file_path = "C:/Users/Andrew/OneDrive - Singapore Management University/SMU stuff/3.2 Exchange/Social Innovation/Creating-watermark-for-text/Functions/Output/Evaluated code.doc"   # Replace with the path to the output Word file
+
+
+        read_encoded_characters_from_code_file(input_file_path, output_file_path)
+        
     
     # Encoding and returning the details of homoglyphs
-    return render_template('form.html', proportion_of_homoglyphs_code = proportion_of_homoglyphs_code,
-                           proportion_of_whitespaces_code = proportion_of_whitespaces_code)
+    return render_template('form.html')
 
 
 if __name__ == '__main__':

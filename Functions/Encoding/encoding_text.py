@@ -28,8 +28,8 @@ def text_encoder(original_text_input):
     for ch in encoded_text:
         if ch in encoding_dict:
             encoding_score += 1
-            
-            encoded_ch += ch
+            if ch not in encoded_ch:
+                encoded_ch += ch
     
     whitespace_count = 0
     letter_count = 0

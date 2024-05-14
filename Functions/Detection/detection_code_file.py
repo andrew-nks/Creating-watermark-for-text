@@ -1,6 +1,8 @@
 # detect encoded characters
+from docx import Document
+from docx.enum.text import WD_COLOR_INDEX
 
-def read_encoded_characters_from_code_file(file_path):
+def read_encoded_characters_from_code_file(file_path,output_path):
     
     # Initialize an empty string to store each line of code
     current_line = ''
@@ -18,56 +20,31 @@ def read_encoded_characters_from_code_file(file_path):
         # count of whitespaces
         whitespace = 0
 
+        # homoglyphs
+        homoglyphs = "АаВеցіΚӏΜΝոΟΡрԛЅѕΤՍԜԝΥу‚;꞉ǃʾ"
+
+        # read all lines in code
+        lines = file.readlines()
+
+
+        # create new document with flagged homoglyphs
+        new_doc = Document()
+
+        for line in lines:
+            paragraph = new_doc.add_paragraph()
+            for letter in line:
+                run = paragraph.add_run(letter)
+                # Check if the letter is in the flag list
+                if letter in homoglyphs:
+                    # Apply yellow highlighting
+                    run.font.highlight_color = WD_COLOR_INDEX.YELLOW
+             
+        
+        # save doc
+        new_doc.save(output_path)
+        
+
         # Flag to track if we are currently inside a comment block
         inside_comment = False
 
-        # Iterate through each character
-        for char in file.read():
-
-            # Check if current character is the start of a comment
-            if char == "#" and not inside_comment:
-                inside_comment = True   # if char is a comment character, flag indicates we are inside a comment block
-                current_line += char
-
-            elif char == "/" and not inside_comment: # checking if "//" is present e.g Javascript comment
-                if current_line and current_line[-1] == "/":
-                    inside_comment = True   
-                current_line += char
-                    
-            elif char == "*" and not inside_comment: # checking if "/*" is present i.e CSS comment
-                if current_line and current_line[-1] == "/":
-                    inside_comment = True   
-                current_line += char
-
-            elif char == "-" and not inside_comment: # checking if "--" is present i.e SQL comment
-                if current_line and current_line[-1] == "-":
-                    inside_comment = True   
-                current_line += char
-
-            elif char == "!" and not inside_comment: # checking if "<!--" is present i.e HTML comment
-                if current_line and current_line[-1] == "<":
-                    inside_comment = True
-                current_line += char
-
-            # Check if current character is the end of a comment
-            elif char == '\n' and inside_comment:
-                inside_comment = False  # if char is end of line, flag indicates end of comment i.e out of comment block
-                current_line = ''
-
-            # Check if the current letter is inside the comment block
-            elif inside_comment:
-                if char in "АаВеցіΚӏΜΝոΟΡрԛЅѕΤՍԜԝΥу‚;꞉ǃʾ":  # if char is encoded, +1 to encoded count
-                    encoded += 1
-                elif char == whitespace_character:
-                    whitespace += 1
-                else:                                      # else, +1 to non-encoded score
-                    score += 1
-    
-        if score + encoded > 0:
-            proportion_of_encoded = str(round(encoded/(score + encoded), 4))
-            proportion_of_whitespace = str(round(whitespace/(score + encoded), 4))
-        else:
-            proportion_of_encoded = '0'
-            proportion_of_whitespace = '0'
-
-        return [proportion_of_encoded, proportion_of_whitespace]
+        
