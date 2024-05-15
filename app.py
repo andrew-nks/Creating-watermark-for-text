@@ -19,6 +19,10 @@ logging.basicConfig(level=logging.DEBUG)
 def index():
     return render_template('form.html')
 
+@app.route("/about.html")
+def about():
+    return render_template("about.html")
+
 # Encoding text manually typed in the box
 @app.route('/process_form', methods=['POST'])
 def process_form():

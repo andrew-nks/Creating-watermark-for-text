@@ -42,7 +42,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="https://github.com/yourusername/yourrepo">GitHub</a>
+                        <a class="nav-link" href="https://github.com/andrew-nks/Creating-watermark-for-text">GitHub</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="about.html">About</a>
@@ -79,7 +79,7 @@
     <button onclick="showForm('detectword')" class="btn-primary">Detection for Word Document</button>
     <button onclick="showForm('generatecode')" class="btn-danger">Generate Code file</button>
     <button onclick="showForm('detectcode')" class="btn-primary">Detection for code file</button>
-    
+     
     <div id="generatetext" class="form-container">
         <h2 style="color:red">Generate Text</h2>
         <!--Encoding manual text input-->
@@ -103,7 +103,7 @@
             <br>
             <h3 style="color: rgb(110, 4, 4)"><strong>Response with watermark </strong></h3>
             
-            {% if encoded_output %}
+            {% if encoded_output %}            
             <textarea id="result" name="result" rows="10" cols="150">{{ encoded_output }}</textarea>
             <p name="proportion"><strong>This is the proportion of encoding:</strong> <span style="color: red; font-weight: bold;">{{ proportion_of_encoding }}</span></p>
             <p name="characters"><strong>These are the characters encoded:</strong> <span style="color: red; font-weight: bold;">{{ encoded_characters }}</span></p>
