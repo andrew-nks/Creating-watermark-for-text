@@ -48,4 +48,3 @@ def flagged_string_with_html(input):
         flagged_string = flagged_string.replace(char, f'<span class="flagged">{char}</span>')
 
     return flagged_string
-       
