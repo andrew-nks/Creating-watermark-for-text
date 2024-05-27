@@ -67,7 +67,10 @@
             <div class="col-md-8 text-center">
                 <h1 class="mb-4">WaterLemon: a multi-approach text watermark</h1>
                 <p class="lead">
-                    Use this application to watermark any text, and to detect if a text has been watermarked.
+                    Use this application to generate or rewrite text with a watermark, and to detect if a text has been watermarked.
+                </p>
+                <p class="lead">
+                    Our system adds two layers of watermark: green/red list and homoglyphs. See more on our documentation.
                 </p>
             </div>
         </div>
@@ -97,6 +100,16 @@
             <textarea id="chatbotResult" name="chatbotResult" rows="10" cols="150">{{ chatbot_response }}</textarea>
             {% endif %}
         </form>
+        <!-- Disclaimer Text Box -->
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Disclaimer:</strong> We use a LLM to replicate the text you input and modify it to be detectable. Bear in mind that our goal is to offer text with maximum quality, but we cannot ensure to maintain the correctness and veracity of the original text.
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="text2text" class="form-container">
@@ -143,7 +156,7 @@
             <h3 style="color: navy">Paste text to be evaluated for watermarks</h3>
             <textarea id="detect" name="detect" rows="10" cols="100">Enter your text here</textarea>
             <br>
-            <input type="submit" class="btn btn-primary btn-sm" value="Detect Homoglyphs">
+            <input type="submit" class="btn btn-primary btn-sm" value="Detect">
             <input type="button" name="reset2" value="Reset" onclick="resetForm()">
             <br>
 

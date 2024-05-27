@@ -9,6 +9,9 @@ from Functions.Detection.detection_text_file import *
 from Functions.Detection.detection_code_file import *
 from Functions.Detection.detection_text import *
 
+# Select which html to use
+use_form = 'form_v2.html'
+
 # Create flask app
 app = Flask(__name__)
 
@@ -17,7 +20,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 @app.route('/')
 def index():
-    return render_template('form.html')
+    return render_template(use_form)
 
 @app.route("/about.html")
 def about():
@@ -34,7 +37,7 @@ def process_form():
     whitespace_characters = text_encoder(original_text_input)[3]
     
     # Encoding and returning the details of homoglyphs
-    return render_template('form.html', encoded_output=encoded_output, 
+    return render_template(use_form, encoded_output=encoded_output, 
                            proportion_of_encoding = proportion_of_encoding,
                            encoded_characters = encoded_characters,
                            whitespace_characters = whitespace_characters)
@@ -113,7 +116,7 @@ def detect_text():
     
     
     # Detecting and returning the details of homoglyphs
-    return render_template('form.html', text_input_with_flags = text_input_with_flags,
+    return render_template(use_form, text_input_with_flags = text_input_with_flags,
                            homoglyph_proportion = homoglyph_proportion, 
                            whitespace_proportion = whitespace_proportion,
                            homoglyph_list = homoglyph_list
@@ -147,7 +150,7 @@ def detect_text_file():
         proportion_of_whitespaces = read_encoded_characters_from_word_file_with_paragraphs(input_file_path,output_file_path)[1]
     
     # Encoding and returning the details of homoglyphs
-    return render_template('form.html', proportion_of_homoglyphs = proportion_of_homoglyphs,
+    return render_template(use_form, proportion_of_homoglyphs = proportion_of_homoglyphs,
                            proportion_of_whitespaces = proportion_of_whitespaces)
 
 # Detecting watermarks in code file uploaded
@@ -178,7 +181,7 @@ def detect_code_file():
         
     
     # Encoding and returning the details of homoglyphs
-    return render_template('form.html')
+    return render_template(use_form)
 
 
 if __name__ == '__main__':
