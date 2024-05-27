@@ -35,7 +35,7 @@ def homoglyph_detection(encoded_text_input):
 
     homoglyphs = ''.join(homoglyphs)
 
-    return [homoglyph_proportion, whitespace_proportion,homoglyphs]
+    return [homoglyph_proportion, whitespace_proportion, homoglyphs]
 
 # Flagging homoglyphs in printed output 
 def flagged_string_with_html(input):
