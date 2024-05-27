@@ -34,9 +34,12 @@
         .navbar-custom .nav-link {
             color: black; /* Text color of the navbar links */
         }
-        
+        .btn-custom {
+            background-color: rgb(184, 201, 0); /* Match the navbar color */
+            color: black;
+        }
+
     </style>
-    
 </head>
 <body class="bg-light">
 
@@ -62,7 +65,6 @@
     <div class="container my-5">
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
-                <!-- <img src="waterlemon_logo2.jpg" alt="WaterLemon Logo" class="logo mb-4"> -->
                 <h1 class="mb-4">WaterLemon: a multi-approach text watermark</h1>
                 <p class="lead">
                     Use this application to watermark any text, and to detect if a text has been watermarked.
@@ -77,10 +79,26 @@
     </div>
    
     <h1>Select a Feature:</h1>
-    <button onclick="showForm('chatbot')" class="btn-danger">Watermarked ChatBot</button>
-    <button onclick="showForm('text2text')" class="btn-danger">Text2text Watermark</button>
-    <button onclick="showForm('detecttext')" class="btn-primary">Detection</button>
+    <button onclick="showForm('chatbot')" class="btn btn-custom">Watermarked ChatBot</button>
+    <button onclick="showForm('text2text')" class="btn btn-danger">Text2text Watermark</button>
+    <button onclick="showForm('detecttext')" class="btn btn-primary">Detection</button>
      
+    <div id="chatbot" class="form-container">
+        <h2 style="color: rgb(184, 201, 0);">Watermarked ChatBot</h2>
+        <form id="chatbotForm" action="/chatbot" method="POST" enctype="multipart/form-data">
+            <h3 style="color: rgb(184, 201, 0);">Input your prompt:</h3>
+            <textarea id="chatbotInput" name="chatbotInput" rows="10" cols="150">Enter your prompt here...</textarea>
+            <br>
+            <input type="submit" class="btn btn-custom btn-sm" value="Submit">
+            <input type="button" name="resetChatbot" value="Reset" onclick="resetForm()">
+            <br><br>
+            {% if chatbot_response %}
+            <h3 style="color: rgb(184, 201, 0);"><strong>ChatBot Response:</strong></h3>
+            <textarea id="chatbotResult" name="chatbotResult" rows="10" cols="150">{{ chatbot_response }}</textarea>
+            {% endif %}
+        </form>
+    </div>
+
     <div id="text2text" class="form-container">
         <h2 style="color:red">Text2text Watermark</h2>
         <!--Encoding manual text input-->
