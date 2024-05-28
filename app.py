@@ -18,6 +18,24 @@ app = Flask(__name__)
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
+
+###LLMs loading
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, LogitsProcessorList
+import torch
+
+device = torch.device("cpu")
+llm_tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-large")
+llm_model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-large")
+llm_model.eval()
+
+
+##Watermark processor and detector
+from extended_watermark_processor import WatermarkLogitsProcessor
+watermark_processor = WatermarkLogitsProcessor(vocab=list(llm_tokenizer.get_vocab().values()),
+                                               gamma=0.25,
+                                               delta=2.0,
+                                               seeding_scheme="selfhash")
+
 @app.route('/')
 def index():
     return render_template(use_form)
@@ -25,6 +43,29 @@ def index():
 @app.route("/about.html")
 def about():
     return render_template("about.html")
+
+@app.route('/chatbot', methods=['POST'])
+def chatbot():
+    user_input = request.form['chatbotInput']
+    
+    tokenized_input = llm_tokenizer(user_input, return_tensors='pt').to(llm_model.device)
+
+    ##watermarked
+    output_tokens = llm_model.generate(**tokenized_input,
+                                logits_processor=LogitsProcessorList([watermark_processor]),
+                                max_new_tokens=100)
+
+
+    output_tokens = output_tokens[:,tokenized_input["input_ids"].shape[-1]:]
+    wm_output_text = llm_tokenizer.batch_decode(output_tokens, skip_special_tokens=True)[0]
+
+    ##unwatermarked
+    output_tokens = llm_model.generate(**tokenized_input,max_new_tokens=100)
+    output_tokens = output_tokens[:,tokenized_input["input_ids"].shape[-1]:]
+    output_text = llm_tokenizer.batch_decode(output_tokens, skip_special_tokens=True)[0]
+    
+    return render_template('chatbot_response.html', chatbot_response=output_text, chatbot_response_watermarked=wm_output_text)
+
 
 # Encoding text manually typed in the box
 @app.route('/process_form', methods=['POST'])
